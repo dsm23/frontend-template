@@ -1,0 +1,84 @@
+.h1 {
+  color: theme(colors.brand);
+  font-size: 41px;
+  font-weight: 600;
+  line-height: 46px;
+  letter-spacing: -0.5px;
+}
+
+.h2 {
+  color: theme(colors.brand);
+  font-size: 35px;
+  font-weight: 600;
+  line-height: 38px;
+  letter-spacing: -0.5px;
+}
+
+.h3 {
+  color: theme(colors.brand);
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 30px;
+}
+
+.h4 {
+  color: theme(colors.brand);
+  font-size: 21px;
+  font-weight: 600;
+  line-height: 24px;
+}
+
+.body1 {
+  color: theme(colors.text);
+  font-size: 19px;
+  line-height: 28.5px;
+}
+
+.body2 {
+  color: theme(colors.text);
+  font-size: 17px;
+  line-height: 25.5px;
+}
+
+.body3 {
+  color: theme(colors.text);
+  font-size: 15px;
+  line-height: 22.5px;
+}
+
+@screen md {
+  .h1 {
+    font-size: 53px;
+    line-height: 57px;
+  }
+
+  .h2 {
+    font-size: 44px;
+    line-height: 48px;
+  }
+  
+  .h3 {
+    font-size: 32px;
+    line-height: 40px;
+  }
+  
+  .h4 {
+    font-size: 24px;
+    line-height: 30px;
+  }
+
+  .body1 {
+    font-size: 21px;
+    line-height: 31.5px;
+  }
+
+  .body2 {
+    font-size: 19px;
+    line-height: 28.5px;
+  }
+
+  .body3 {
+    font-size: 17px;
+    line-height: 25.5px;
+  }
+}

@@ -1,0 +1,17 @@
+name: Pull request opened
+on:
+  pull_request:
+    types: [opened, reopened]
+
+concurrency: 
+  group: ${{ github.event.pull_request.number }}-opened
+
+# Preview environment functionality is based on this article: 
+# https://levelup.gitconnected.com/dynamic-pull-request-previews-with-github-actions-and-azure-app-service-1f613986eab8#50c8  
+jobs:
+  
+  build:
+    name: Build
+    uses: ./.github/workflows/build.yml
+
+  

@@ -1,0 +1,94 @@
+.headerNav {
+  min-height: 5rem;
+  background-color: #fefefe;
+  border-bottom: 4px solid theme(colors.link-focus-bg);
+
+  .logo {
+    height: 2rem;
+    width: 8.25rem;
+  }
+
+  & li:not(:last-of-type) {
+    border-bottom: 1px solid rgba(11, 34, 101, 0.25);
+  }
+
+  .topMenuItem {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-weight: 600;
+    padding: 1.25rem 0.5rem;
+    background-color: transparent;
+    border: none;
+    color: theme(colors.blue);
+    width: 100%;
+
+    &:hover {
+      color: theme(colors.button-highlight);
+      cursor: pointer;
+    }
+  }
+
+  .topMenuItemSelected {
+    color: theme(colors.white);
+    background-color: theme(colors.button-default);
+
+    &:hover {
+      color: white;
+    }
+
+    .iconChevron {
+      color: #ffffff;
+    }
+  }
+
+  @media screen(md) {
+    display: flex;
+    align-items: center;
+
+    & li:not(:last-of-type) {
+      border-bottom: none;
+    }
+
+    .topMenuItem {
+      color: theme(colors.button-default);
+      text-decoration: underline;
+      font-size: 1.0625rem;
+      font-weight: 600;
+      margin: 0;
+      white-space: nowrap;
+      padding: 5px 10px;
+      border-radius: theme(borderRadius.DEFAULT);
+
+      &:active,
+      &:focus {
+        border-color: transparent;
+      }
+
+      &:hover {
+        color: theme(colors.white);
+        background-color: theme(colors.button-highlight);
+        cursor: pointer;
+        text-decoration: none;
+      }
+
+      &:active:hover {
+        color: white;
+        background-color: theme(colors.button-highlight);
+        outline-color: theme(colors.link-focus-bg);
+      }
+
+      &:focus {
+        color: black;
+        background-color: theme(colors.link-focus-bg);
+        outline-color: theme(colors.link-focus-bg);
+      }
+    }
+
+    .topMenuItemSelected {
+      color: white;
+      background-color: theme(colors.button-default);
+      margin: 0;
+    }
+  }
+}

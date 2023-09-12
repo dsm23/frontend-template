@@ -1,0 +1,10 @@
+name: Pull request updated
+on:
+  pull_request:
+    types: [synchronize]
+
+jobs:
+
+  build:
+    name: Build
+    uses: ./.github/workflows/build.yml

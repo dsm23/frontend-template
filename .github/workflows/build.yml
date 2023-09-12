@@ -1,0 +1,101 @@
+name: Generate production ready build
+on:
+  workflow_call: # This action is a re-usable action:
+
+env:
+  PLAYWRIGHT_BASE_URL: http://localhost:4000
+  PLAYWRIGHT_BASE_URL_PORT: "4000"
+  PLAYWRIGHT_TEST_USER_EMAIL: ${{ vars.PLAYWRIGHT_TEST_USER_EMAIL }}
+  PLAYWRIGHT_TEST_USER_PASSWORD: ${{ vars.PLAYWRIGHT_TEST_USER_PASSWORD }}
+  RUNTIME_FIREBASE_API_KEY: ${{ vars.RUNTIME_FIREBASE_API_KEY }}
+  RUNTIME_FIREBASE_AUTH_DOMAIN: ${{ vars.RUNTIME_FIREBASE_AUTH_DOMAIN }}
+  RUNTIME_FIREBASE_PROJECT_ID: ${{ vars.RUNTIME_FIREBASE_PROJECT_ID }}
+  RUNTIME_FIREBASE_STORAGE_BUCKET: ${{ vars.RUNTIME_FIREBASE_STORAGE_BUCKET }}
+  RUNTIME_FIREBASE_MESSAGING_SENDER_ID: ${{ vars.RUNTIME_FIREBASE_MESSAGING_SENDER_ID }}
+  RUNTIME_FIREBASE_APP_ID: ${{ vars.RUNTIME_FIREBASE_APP_ID }}
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    environment: development
+    strategy:
+      matrix:
+        node-version: [18]
+    steps:
+
+    - uses: actions/checkout@v3.5.2
+
+    - uses: pnpm/action-setup@v2
+      with:
+        version: 8
+
+    - uses: actions/cache@v3 # See https://blog.karmacomputing.co.uk/make-playwright-faster-with-containers-and-build-caching-github-actions/
+      id: playwright-cache
+      with:
+        path: |
+          ~/.cache/ms-playwright
+        key: ${{ runner.os }}-playwright-${{ hashFiles('./pnpm-lock.yaml') }}
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'pnpm'
+    - name: Install dependencies
+      run: pnpm install --frozen-lockfile
+
+    - name: Run lint
+      run: pnpm run lint
+
+    - name: Run tests
+      run: pnpm run test --coverage
+
+    - run: pnpm playwright install --with-deps
+      if: steps.playwright-cache.outputs.cache-hit != 'true'
+    - run: pnpm playwright install-deps
+      if: steps.playwright-cache.outputs.cache-hit == 'true'
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2.5.0
+
+    - name: Docker metadata
+      id: meta
+      uses: docker/metadata-action@v4.4.0
+      with:
+        images: ghcr.io/${{ github.repository }}
+        tags: |
+          type=schedule
+          type=ref,event=branch
+          type=ref,event=tag
+          type=ref,event=pr
+          type=sha,format=long
+
+    - name: Log in to GitHub container registry
+      uses: docker/login-action@v2.1.0
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Build image to run tests
+      uses: docker/build-push-action@v4.0.0
+      with:
+        context: .
+        platforms: linux/amd64
+        push: false
+        load: true
+        tags: test
+
+    - name: Run Playwright tests
+      run: |
+        docker run --rm -d --name playwright-tests -p 4000:80 -e MAINSITE_B2C_INSTANCE=${{ vars.MAINSITE_B2C_INSTANCE }} -e MAINSITE_B2C_DOMAIN=${{ vars.MAINSITE_B2C_DOMAIN }} -e MAINSITE_B2C_SIGNUP_SIGNIN_POLICY=${{ vars.MAINSITE_B2C_SIGNUP_SIGNIN_POLICY }} -e MAINSITE_B2C_PASSWORD_RESET_POLICY=${{ vars.MAINSITE_B2C_PASSWORD_RESET_POLICY }} -e MAINSITE_B2C_CLIENT_ID=${{ vars.MAINSITE_B2C_CLIENT_ID }} -e MAINSITE_B2C_API_SCOPE=${{ vars.MAINSITE_B2C_API_SCOPE }} test
+        pnpm run playwright test --reporter list
+        docker stop playwright-tests
+
+    - name: Build production image and push
+      uses: docker/build-push-action@v4.0.0
+      with:
+        context: .
+        push: true
+        tags: ${{ steps.meta.outputs.tags }}
+        labels: ${{ steps.meta.outputs.labels }}
