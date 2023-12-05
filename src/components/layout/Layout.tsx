@@ -15,7 +15,7 @@ const Layout: FunctionComponent<Props> = ({ children }) => (
     </Anchor>
     <div className="grid min-h-screen grid-rows-[auto_1fr_auto]">
       <Header />
-      <main id="main-content">{children != null ? children : <Outlet />}</main>
+      <main id="main-content">{children ?? <Outlet />}</main>
       <Footer />
     </div>
     <Toaster />

@@ -1,4 +1,4 @@
-import { graphql, rest } from "msw";
+import { graphql, HttpResponse, http } from "msw";
 
 // Mock Data
 export const posts = [
@@ -25,18 +25,16 @@ export const posts = [
 const jsonPlaceHolder = graphql.link("https://jsonplaceholder.ir/graphql");
 // Define handlers that catch the corresponding requests and returns the mock data.
 export const handlers = [
-  rest.get(
+  http.get(
     "https://jsonplaceholder.typicode.com/posts",
-    async (_, res, ctx) => {
-      return await res(ctx.status(200), ctx.json(posts));
-    },
+    () =>  HttpResponse.json(posts),
   ),
 
-  jsonPlaceHolder.query("posts", async (_, res, ctx) => {
-    return await res(
-      ctx.data({
+  jsonPlaceHolder.query("posts", () => {
+    return HttpResponse.json({
+      data: {
         posts,
-      }),
-    );
+      },
+    });
   }),
 ];

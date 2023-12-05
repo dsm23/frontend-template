@@ -1,3 +1,4 @@
+import { useId } from "react";
 // import { useNavigate } from "react-router-dom";
 import { useForm } from "@tanstack/react-form";
 // import type { z } from "zod";
@@ -9,6 +10,8 @@ import { Button, H1 } from "../../components";
 // type Values = Partial<z.infer<typeof schema>>;
 
 const TanstackPage = () => {
+  const firstNameId = useId();
+  const lastNameId = useId();
   // const navigate = useNavigate();
   // const { exampleFormState, setExampleFormState } = useStore();
 
@@ -38,16 +41,44 @@ const TanstackPage = () => {
     <div className="container">
       <H1>Tanstack form attempt</H1>
       <form.Provider>
-        <form {...form.getFormProps()}>
+        <form
+          onSubmit={(event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            void form.handleSubmit();
+          }}
+        >
           <div>
             <form.Field name="firstName" onChange={(value) => value}>
-              {(field) => <input {...field.getInputProps()} />}
+              {(field) => (
+                <>
+                  <label htmlFor={firstNameId}>First Name</label>
+                  <input
+                    id={firstNameId}
+                    name={field.name}
+                    value={field.state.value}
+                    onBlur={field.handleBlur}
+                    onChange={(e) => field.handleChange(e.target.value)}
+                  />
+                </>
+              )}
             </form.Field>
           </div>
 
           <div>
             <form.Field name="lastName">
-              {(field) => <input {...field.getInputProps()} />}
+              {(field) => (
+                <>
+                  <label htmlFor={lastNameId}>Last Name</label>
+                  <input
+                    id={lastNameId}
+                    name={field.name}
+                    value={field.state.value}
+                    onBlur={field.handleBlur}
+                    onChange={(e) => field.handleChange(e.target.value)}
+                  />
+                </>
+              )}
             </form.Field>
           </div>
 

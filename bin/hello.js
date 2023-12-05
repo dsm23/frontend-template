@@ -12,7 +12,7 @@ Thanks for joining the team. Feel free to get creative.
 To get you going really quickly this project includes a setup step.
 
 ${chalk.yellow.bold(
-  "pnpm setup-env",
+  "bun run setup",
 )} help automating the addition of the following environment variables into a config file:
   - ${chalk.yellow("RUNTIME_FIREBASE_API_KEY")}
   - ${chalk.yellow("RUNTIME_FIREBASE_AUTH_DOMAIN")}
@@ -23,19 +23,19 @@ ${chalk.yellow.bold(
 
 When this is done run:
 
-${chalk.yellow("pnpm dev")} or ${chalk.yellow(
-  "pnpm start",
+${chalk.yellow("bun run dev")} or ${chalk.yellow(
+  "bun run start",
 )} to start a development environment at ${chalk.green("http://localhost:3000")}
 
 or
 
 ${chalk.yellow(
-  "pnpm build",
+  "bun run build",
 )} to create a production site ready in ${chalk.green("./public")}
 
 then
 
-${chalk.yellow("pnpm preview")} to run the production site in ${chalk.green(
+${chalk.yellow("bun run preview")} to run the production site in ${chalk.green(
   "./public",
 )} but it does need runtime enviroment variables in the shell not the .env file
 

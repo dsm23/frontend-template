@@ -1,6 +1,7 @@
 import type { FunctionComponent, SVGAttributes } from "react";
 import { Link } from "react-router-dom";
 import { cn } from "~/utils";
+import { Logo } from "../svgs";
 
 type Props = SVGAttributes<SVGSVGElement>;
 
@@ -105,11 +106,9 @@ const Footer: FunctionComponent<Props> = ({ className }) => (
     <div className="container px-6 pb-8 pt-16 sm:pt-24 lg:px-8 lg:pt-32">
       <div className="xl:grid xl:grid-cols-3 xl:gap-8">
         <div className="space-y-8">
-          <img
-            className="h-7"
-            src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
-            alt="Company name"
-          />
+          <Logo className="h-7 w-auto" />
+          <span className="sr-only">Your Company</span>
+
           <p className="text-sm leading-6 text-gray-300">
             Making the world a better place through constructing elegant
             hierarchies.

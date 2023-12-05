@@ -1,32 +1,38 @@
-#################
-# Build the app #
-#################
-FROM node:18.17.1-slim as build
+FROM oven/bun:1.0.15-slim AS builder
+
+WORKDIR /app
 
 COPY . .
 
-RUN npm install -g pnpm
-
-RUN pnpm install --frozen-lockfile
-RUN pnpm build
-
-RUN npx pkg ./node_modules/@import-meta-env/cli/bin/import-meta-env.js \
-  --target node18-linuxstatic-x64 \
-  --output import-meta-env
+RUN bun install --frozen-lockfile
+RUN bun run build
 
 
-################
-# Run in NGINX #
-################
-FROM nginx:1.25.2-alpine3.18-slim
-COPY --from=build /dist /usr/share/nginx/html
+FROM nginx:1.25.3-alpine3.18-slim
+
+RUN apk add --no-cache bash
+
+COPY --from=builder /app/dist /usr/share/nginx/html
 
 RUN mkdir /environment-details
 
-COPY --from=build /import-meta-env /environment-details/
-COPY .env.example docker_entry_point.sh /environment-details/
+COPY docker_entry_point.sh /environment-details/
+COPY .env.example /environment-details/
+COPY replacePlaceholder.sh /environment-details/
 
-RUN rm /etc/nginx/conf.d/default.conf
-COPY nginx/nginx.conf /etc/nginx/conf.d
+COPY nginx/nginx.conf /etc/nginx/templates/default.conf.template
+
+# implement changes required to run NGINX as an unprivileged user
+RUN sed -i '/user  nginx;/d' /etc/nginx/nginx.conf \
+    && sed -i 's,/var/run/nginx.pid,/tmp/nginx.pid,' /etc/nginx/nginx.conf \
+# nginx user must own the cache and etc directory to write cache and tweak the nginx config
+    && chown -R nginx /var/cache/nginx \
+    && chmod -R g+w /var/cache/nginx \
+    && chown -R nginx /etc/nginx \
+    && chmod -R g+w /etc/nginx \
+# change the placeholder js file in html
+    && chown -R nginx /usr/share/nginx/html
+
+USER nginx
 
 ENTRYPOINT ["sh","/environment-details/docker_entry_point.sh"]

@@ -1,11 +1,9 @@
 #!/bin/bash
 set -e
 
-./20-envsubst-on-templates.sh
+bash /docker-entrypoint.d/20-envsubst-on-templates.sh
 
-# Inject environment variables to index.html
-./environment-details/import-meta-env \
-  -x /environment-details/.env.example \
-  -p /usr/share/nginx/html/index.html || exit 1
+bash /environment-details/replacePlaceholder.sh \
+  /usr/share/nginx/html/importMetaEnvPlaceholder.js
 
 nginx -g "daemon off;"

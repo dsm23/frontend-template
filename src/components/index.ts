@@ -2,7 +2,6 @@ export * from "./anchor";
 export * from "./button";
 export * from "./checkbox";
 export * from "./checkbox-with-label";
-export * from "./client-side-navigation";
 export * from "./footer";
 export * from "./form";
 export * from "./header";

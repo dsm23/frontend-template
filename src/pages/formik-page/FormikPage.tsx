@@ -56,6 +56,7 @@ const FormikPage = () => {
           stooge: exampleFormState.stooge,
           notes: exampleFormState.notes,
         }}
+        /* @ts-expect-error formik issues, fix later */
         validate={toFormikValidate(schema)}
         onSubmit={onSubmit}
       >

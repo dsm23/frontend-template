@@ -16,6 +16,7 @@ const CheckboxWithLabel = forwardRef<HTMLInputElement, CheckboxWithLabelProps>(
 
     return (
       <fieldset className={cx("flex space-x-4", className)}>
+        {/* @ts-expect-error formik issues, fix later */}
         <Checkbox {...props} id={props.id ?? id} ref={ref} />
         <Label {...labelProps} htmlFor={props.id ?? id}>
           {labelText}

@@ -31,7 +31,7 @@ const buttonVariants = cva(
       variant: "default",
       size: "default",
     },
-  }
+  },
 );
 
 interface PolymorphicProps<E extends ElementType = ElementType>
@@ -48,9 +48,9 @@ const defaultElement = "button";
 const Button = forwardRef(
   (
     { className, variant, size, as: Elem, ...props }: Props,
-    ref: Ref<Element>
+    ref: Ref<Element>,
   ) => {
-    const Component = Elem != null ? Elem : defaultElement;
+    const Component = Elem ?? defaultElement;
     return (
       <Component
         className={cn(buttonVariants({ variant, size, className }))}
@@ -58,9 +58,9 @@ const Button = forwardRef(
         {...props}
       />
     );
-  }
+  },
 ) as { displayName: string } & (<E extends ElementType = typeof defaultElement>(
-  props: Props<E>
+  props: Props<E>,
 ) => ReactElement);
 
 Button.displayName = "Button";

@@ -40,11 +40,9 @@ const Home = () => {
       resolver: zodResolver(schema),
     });
 
-  const { errors, isSubmitting } = formState;
+  const { isSubmitting } = formState;
 
   const onSubmit: SubmitHandler<Values> = async (values) => {
-    console.log(values);
-
     setExampleFormState(values);
 
     toast({

@@ -7,6 +7,7 @@ import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { UserCircle2 } from "lucide-react";
 import { cn } from "~/utils";
 import { auth } from "../../lib/firebase";
+import { Logo } from "../svgs";
 
 const Header: FunctionComponent = () => {
   const navigate = useNavigate();
@@ -27,11 +28,8 @@ const Header: FunctionComponent = () => {
               <div className="flex h-16 items-center justify-between">
                 <div className="flex items-center">
                   <div className="flex-shrink-0">
-                    <img
-                      className="h-8 w-auto"
-                      src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
-                      alt="Your Company"
-                    />
+                    <Logo className="h-8 w-auto" />
+                    <span className="sr-only">Your Company</span>
                   </div>
                   <div className="hidden sm:ml-6 sm:block">
                     <div className="flex space-x-4">
