@@ -28,6 +28,7 @@
     "@radix-ui/react-toast": "^1.1.5",
     "@tanstack/react-form": "^0.10.3",
     "class-variance-authority": "^0.7.0",
+    "click-to-react-component": "^1.1.0",
     "clsx": "^2.0.0",
     "firebase": "^10.7.0",
     "formik": "^2.4.5",
