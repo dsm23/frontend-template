@@ -12,6 +12,10 @@ dist
 dist-ssr
 *.local
 
+# docker compose
+compose.yaml
+compose.yml
+docker-compose.yaml
 docker-compose.yml
 
 .eslintcache
