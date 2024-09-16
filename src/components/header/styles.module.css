@@ -1,11 +1,11 @@
 .headerNav {
   min-height: 5rem;
-  background-color: #fefefe;
   border-bottom: 4px solid theme(colors.link-focus-bg);
+  background-color: #fefefe;
 
   .logo {
-    height: 2rem;
     width: 8.25rem;
+    height: 2rem;
   }
 
   & li:not(:last-of-type) {
@@ -16,12 +16,12 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    font-weight: 600;
-    padding: 1.25rem 0.5rem;
-    background-color: transparent;
-    border: none;
-    color: theme(colors.blue);
     width: 100%;
+    padding: 1.25rem 0.5rem;
+    border: none;
+    background-color: transparent;
+    color: theme(colors.blue);
+    font-weight: 600;
 
     &:hover {
       color: theme(colors.button-highlight);
@@ -30,8 +30,8 @@
   }
 
   .topMenuItemSelected {
-    color: theme(colors.white);
     background-color: theme(colors.button-default);
+    color: theme(colors.white);
 
     &:hover {
       color: white;
@@ -51,14 +51,14 @@
     }
 
     .topMenuItem {
-      color: theme(colors.button-default);
-      text-decoration: underline;
-      font-size: 1.0625rem;
-      font-weight: 600;
       margin: 0;
-      white-space: nowrap;
       padding: 5px 10px;
       border-radius: theme(borderRadius.DEFAULT);
+      color: theme(colors.button-default);
+      font-weight: 600;
+      font-size: 1.0625rem;
+      text-decoration: underline;
+      white-space: nowrap;
 
       &:active,
       &:focus {
@@ -66,29 +66,29 @@
       }
 
       &:hover {
-        color: theme(colors.white);
         background-color: theme(colors.button-highlight);
-        cursor: pointer;
+        color: theme(colors.white);
         text-decoration: none;
+        cursor: pointer;
       }
 
       &:active:hover {
-        color: white;
-        background-color: theme(colors.button-highlight);
         outline-color: theme(colors.link-focus-bg);
+        background-color: theme(colors.button-highlight);
+        color: white;
       }
 
       &:focus {
-        color: black;
-        background-color: theme(colors.link-focus-bg);
         outline-color: theme(colors.link-focus-bg);
+        background-color: theme(colors.link-focus-bg);
+        color: black;
       }
     }
 
     .topMenuItemSelected {
-      color: white;
-      background-color: theme(colors.button-default);
       margin: 0;
+      background-color: theme(colors.button-default);
+      color: white;
     }
   }
 }

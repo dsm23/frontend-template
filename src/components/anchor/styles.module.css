@@ -1,9 +1,9 @@
 .anchor {
   color: theme(colors.link-colour);
   text-decoration: underline;
-  
+
   &:hover {
-    color: theme(colors.link-hover-colour)
+    color: theme(colors.link-hover-colour);
   }
 
   &:focus-visible {

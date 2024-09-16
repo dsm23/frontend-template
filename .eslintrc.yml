@@ -41,8 +41,8 @@ rules:
   no-console:
     - error
     - allow:
-      - debug
-      - error
-      - info
-      - trace
-      - warn
+        - debug
+        - error
+        - info
+        - trace
+        - warn
