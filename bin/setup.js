@@ -125,35 +125,42 @@ inquirer
       firebaseMessagingSenderId,
       firebaseAppId,
     }) => {
-      console.log("Writing docker compose file...");
-      const configFiles = [`docker-compose.yml`].map((file) =>
-        path.resolve(file),
-      );
-
-      const fileContents =
-        [
-          `services:`,
-          `  build-web:`,
-          `    build: .`,
-          `    image: frontend-template`,
-          `  web:`,
-          `    depends_on:`,
-          `      - build-web`,
-          `    image: frontend-template`,
-          `    ports:`,
-          `      - 3000:80`,
-          `    environment:`,
-          `      - RUNTIME_FIREBASE_API_KEY=${firebaseApiKey}`,
-          `      - RUNTIME_FIREBASE_AUTH_DOMAIN=${firebaseAuthDomain}`,
-          `      - RUNTIME_FIREBASE_PROJECT_ID=${firebaseProjectId}`,
-          `      - RUNTIME_FIREBASE_STORAGE_BUCKET=${firebaseStorageBucket}`,
-          `      - RUNTIME_FIREBASE_MESSAGING_SENDER_ID=${firebaseMessagingSenderId}`,
-          `      - RUNTIME_FIREBASE_APP_ID=${firebaseAppId}`,
-        ].join("\n") + "\n";
+      console.log("Writing docker compose files...");
+      const configFiles = [
+        {
+          name: `compose.yml`,
+          contents:
+            [
+              `services:`,
+              `  web:`,
+              `    container_name: web`,
+              `    build:`,
+              `      context: .`,
+              `      dockerfile: Dockerfile`,
+              `    ports:`,
+              `      - 3000:80`,
+            ].join("\n") + "\n",
+        },
+        {
+          name: `compose.override.yml`,
+          contents:
+            [
+              `services:`,
+              `  web:`,
+              `    environment:`,
+              `      - RUNTIME_FIREBASE_API_KEY=${firebaseApiKey}`,
+              `      - RUNTIME_FIREBASE_AUTH_DOMAIN=${firebaseAuthDomain}`,
+              `      - RUNTIME_FIREBASE_PROJECT_ID=${firebaseProjectId}`,
+              `      - RUNTIME_FIREBASE_STORAGE_BUCKET=${firebaseStorageBucket}`,
+              `      - RUNTIME_FIREBASE_MESSAGING_SENDER_ID=${firebaseMessagingSenderId}`,
+              `      - RUNTIME_FIREBASE_APP_ID=${firebaseAppId}`,
+            ].join("\n") + "\n",
+        },
+      ];
 
       configFiles.forEach((file) => {
-        writeFileSync(file, fileContents, "utf8");
-        console.log(`${chalk.green("docker-compose.yml")} written`);
+        writeFileSync(path.resolve(file.name), file.contents, "utf8");
+        console.log(`${chalk.green(file.name)} written`);
       });
       return {};
     },
