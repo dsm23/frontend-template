@@ -2,9 +2,8 @@ import { afterEach, vi } from "vitest";
 import type * as zustand from "zustand";
 import { act } from "@testing-library/react";
 
-const { create: actualCreate } = await vi.importActual<typeof zustand>(
-  "zustand",
-);
+const { create: actualCreate } =
+  await vi.importActual<typeof zustand>("zustand");
 
 // a variable to hold reset functions for all stores declared in the app
 export const storeResetFns = new Set<() => void>();

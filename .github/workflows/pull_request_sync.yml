@@ -4,7 +4,6 @@ on:
     types: [synchronize]
 
 jobs:
-
   build:
     name: Build
     uses: ./.github/workflows/build.yml
