@@ -1,9 +1,7 @@
 import { forwardRef } from "react";
 import type { ComponentProps, ElementType, ReactElement, Ref } from "react";
-import cx from "clsx";
-import { Typography } from "../typography";
-
-import styles from "./styles.module.css";
+import { Typography } from "~/components/typography";
+import { cn } from "~/utils";
 
 export type PlymorphicProps<E extends ElementType = ElementType> = {
   as?: E;
@@ -24,12 +22,9 @@ const Anchor = forwardRef(
     <Typography
       {...props}
       as={as}
-      variant={variant === "title" ? "h4" : "body2"}
-      className={cx(
-        styles.anchor,
-        {
-          [styles.variant]: variant === "title",
-        },
+      variant="body2"
+      className={cn(
+        "px-0 text-blue-700 underline underline-offset-4 hover:text-blue-500",
         className,
       )}
       ref={ref}
