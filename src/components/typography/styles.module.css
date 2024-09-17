@@ -1,5 +1,5 @@
 .h1 {
-  color: theme(colors.brand);
+  color: theme(colors.foreground);
   font-weight: 600;
   font-size: 41px;
   line-height: 46px;
@@ -7,7 +7,7 @@
 }
 
 .h2 {
-  color: theme(colors.brand);
+  color: theme(colors.foreground);
   font-weight: 600;
   font-size: 35px;
   line-height: 38px;
@@ -15,33 +15,33 @@
 }
 
 .h3 {
-  color: theme(colors.brand);
+  color: theme(colors.foreground);
   font-weight: 700;
   font-size: 24px;
   line-height: 30px;
 }
 
 .h4 {
-  color: theme(colors.brand);
+  color: theme(colors.foreground);
   font-weight: 600;
   font-size: 21px;
   line-height: 24px;
 }
 
 .body1 {
-  color: theme(colors.text);
+  color: theme(colors.foreground);
   font-size: 19px;
   line-height: 28.5px;
 }
 
 .body2 {
-  color: theme(colors.text);
+  color: theme(colors.foreground);
   font-size: 17px;
   line-height: 25.5px;
 }
 
 .body3 {
-  color: theme(colors.text);
+  color: theme(colors.foreground);
   font-size: 15px;
   line-height: 22.5px;
 }

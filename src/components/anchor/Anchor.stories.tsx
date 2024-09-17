@@ -21,7 +21,6 @@ export const Title: Story = {
   args: {
     children: "Some Text",
     href: "#",
-    variant: "title",
   },
 };
 
