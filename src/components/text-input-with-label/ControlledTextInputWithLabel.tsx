@@ -1,5 +1,5 @@
 import { forwardRef, useId } from "react";
-import type { Ref } from "react";
+import type { JSX, Ref } from "react";
 import { useController } from "react-hook-form";
 import type {
   FieldPath,

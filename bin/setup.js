@@ -6,7 +6,7 @@ import parser from "yargs-parser";
 
 const argv = parser(process.argv.slice(2));
 
-console.log(`
+console.info(`
   To set up this project you need the dev environment variables use at runtime.
 
   They may exist in the wiki.
@@ -83,7 +83,7 @@ inquirer
         RUNTIME_FIREBASE_MESSAGING_SENDER_ID || argv.b2cClientId;
       firebaseAppId ||= RUNTIME_FIREBASE_APP_ID || argv.firebaseAppId;
 
-      console.log("Writing config file...");
+      console.info("Writing config file...");
       const configFiles = [
         `.env.development.local`,
         `.env.playwright.local`,
@@ -104,7 +104,7 @@ inquirer
 
       configFiles.forEach((file) => {
         writeFileSync(file, fileContents, "utf8");
-        console.log(`Config file ${chalk.yellow(file)} written`);
+        console.info(`Config file ${chalk.yellow(file)} written`);
       });
       return {
         firebaseApiKey,
@@ -125,7 +125,7 @@ inquirer
       firebaseMessagingSenderId,
       firebaseAppId,
     }) => {
-      console.log("Writing docker compose files...");
+      console.info("Writing docker compose files...");
       const configFiles = [
         {
           name: `compose.yml`,
@@ -160,13 +160,13 @@ inquirer
 
       configFiles.forEach((file) => {
         writeFileSync(path.resolve(file.name), file.contents, "utf8");
-        console.log(`${chalk.green(file.name)} written`);
+        console.info(`${chalk.green(file.name)} written`);
       });
       return {};
     },
   )
   .then(() => {
-    console.log(`Adding ${chalk.yellow(".vscode/settings.json")}`);
+    console.info(`Adding ${chalk.yellow(".vscode/settings.json")}`);
 
     const configFile = path.resolve(".vscode/settings.json");
 
@@ -196,12 +196,12 @@ inquirer
       ].join("\n") + "\n";
 
     writeFileSync(configFile, fileContents, "utf8");
-    console.log(`${chalk.green(".vscode/settings.json")} written`);
+    console.info(`${chalk.green(".vscode/settings.json")} written`);
 
     return {};
   })
-  .then((_, error) => {
-    console.log(
+  .then(() => {
+    console.info(
       `All set! You can now run ${chalk.yellow(
         "pnpm dev",
       )} to see it in action.`,

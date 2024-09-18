@@ -58,6 +58,14 @@
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
   }
+
+  .text-error {
+    color: theme(colors.red.500);
+  }
+
+  .dark .text-error {
+    color: theme(colors.red.900);
+  }
 }
 
 @layer base {

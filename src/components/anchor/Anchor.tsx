@@ -22,7 +22,7 @@ const Anchor = forwardRef(
     <Typography
       {...props}
       as={as}
-      variant="body2"
+      variant={variant ?? "body2"}
       className={cn(
         "px-0 text-blue-700 underline underline-offset-4 hover:text-blue-500",
         className,
