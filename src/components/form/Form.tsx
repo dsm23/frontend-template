@@ -4,7 +4,7 @@ import type {
   ElementRef,
   HTMLAttributes,
 } from "react";
-import type { Root as LabelPrimitiveRoot } from "@radix-ui/react-label";
+import { Root as LabelPrimitiveRoot } from "@radix-ui/react-label";
 import { Slot } from "@radix-ui/react-slot";
 import { Controller, useFormContext } from "react-hook-form";
 import type { ControllerProps, FieldPath, FieldValues } from "react-hook-form";

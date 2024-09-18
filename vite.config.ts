@@ -4,7 +4,6 @@ import { defineConfig, ConfigEnv } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import eslint from "@nabla/vite-plugin-eslint";
 import importMetaEnv from "@import-meta-env/unplugin";
-// @ts-ignore chunk thing
 import { dependencies } from "./package.json";
 
 export function tryStatSync(file: string): fs.Stats | undefined {
@@ -32,7 +31,7 @@ const getValidEnvFile = (mode: ConfigEnv["mode"]) => {
 };
 
 function renderChunks(deps: Record<string, string>) {
-  let chunks = {};
+  const chunks = {};
   Object.keys(deps).forEach((key) => {
     if (["react", "react-router-dom", "react-dom", "firebase"].includes(key))
       return;

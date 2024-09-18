@@ -2,7 +2,7 @@ import chalk from "chalk";
 import { say } from "cowsay";
 import figlet from "figlet";
 
-console.log(`
+console.info(`
 
 ${chalk.green("Hey there! 👋")}
 

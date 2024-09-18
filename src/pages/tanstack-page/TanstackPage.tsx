@@ -30,7 +30,7 @@ const TanstackPage = () => {
       lastName: "",
     },
 
-    onSubmit: async (values) => {
+    onSubmit: (values) => {
       // Do something with form data
       // eslint-disable-next-line no-console
       console.log(values);
