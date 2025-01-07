@@ -24,7 +24,7 @@ const Anchor = forwardRef(
       as={as}
       variant={variant ?? "body2"}
       className={cn(
-        "px-0 text-blue-700 underline underline-offset-4 hover:text-blue-500",
+        "px-0 text-blue-800 underline underline-offset-4 hover:text-blue-600",
         className,
       )}
       ref={ref}

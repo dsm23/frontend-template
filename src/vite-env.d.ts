@@ -12,3 +12,13 @@ interface ImportMetaEnv {
 interface ImportMeta {
   readonly env: ImportMetaEnv;
 }
+
+declare global {
+  namespace NodeJS {
+    interface ProcessEnv {
+      readonly GOOGLE_EMAIL: string;
+      readonly GOOGLE_OTP_SECRET: string;
+      readonly GOOGLE_PASSWORD: string;
+    }
+  }
+}

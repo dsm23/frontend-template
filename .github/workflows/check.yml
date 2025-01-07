@@ -1,29 +1,39 @@
-name: Generate production ready build
-on:
-  workflow_call: # This action is a re-usable action:
+name: check
 
-env:
-  PLAYWRIGHT_BASE_URL: http://localhost:4000
-  PLAYWRIGHT_BASE_URL_PORT: "4000"
-  PLAYWRIGHT_TEST_USER_EMAIL: ${{ vars.PLAYWRIGHT_TEST_USER_EMAIL }}
-  PLAYWRIGHT_TEST_USER_PASSWORD: ${{ vars.PLAYWRIGHT_TEST_USER_PASSWORD }}
-  RUNTIME_FIREBASE_API_KEY: ${{ vars.RUNTIME_FIREBASE_API_KEY }}
-  RUNTIME_FIREBASE_AUTH_DOMAIN: ${{ vars.RUNTIME_FIREBASE_AUTH_DOMAIN }}
-  RUNTIME_FIREBASE_PROJECT_ID: ${{ vars.RUNTIME_FIREBASE_PROJECT_ID }}
-  RUNTIME_FIREBASE_STORAGE_BUCKET: ${{ vars.RUNTIME_FIREBASE_STORAGE_BUCKET }}
-  RUNTIME_FIREBASE_MESSAGING_SENDER_ID: ${{ vars.RUNTIME_FIREBASE_MESSAGING_SENDER_ID }}
-  RUNTIME_FIREBASE_APP_ID: ${{ vars.RUNTIME_FIREBASE_APP_ID }}
-  REGISTRY: ghcr.io
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
 
 jobs:
-  build:
-    runs-on: ubuntu-20.04
+  check:
+    runs-on: ubuntu-latest
     # container:
-    #   image: mcr.microsoft.com/playwright:v1.47.1-jammy
+    #   image: mcr.microsoft.com/playwright:v1.49.1-jammy
     steps:
-      - uses: actions/checkout@v3.5.2
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+
+      - name: Git Checkout
+        uses: actions/checkout@v4
+
       - name: Use Bun
         uses: oven-sh/setup-bun@v2
+        with:
+          bun-version-file: ".bun-version"
+
+      - name: Use cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.bun/install/cache
+          key: ${{ runner.os }}-bun-${{ hashFiles('**/bun.lockb') }}
 
       - name: Install dependencies
         run: bun install --frozen-lockfile
@@ -37,8 +47,18 @@ jobs:
       # - name: Run tests
       #   run: bun run test --coverage
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2.5.0
+      - name: Run build
+        run: bun run build
+        env:
+          RUNTIME_FIREBASE_API_KEY: ${{ secrets.RUNTIME_FIREBASE_API_KEY }}
+          RUNTIME_FIREBASE_AUTH_DOMAIN: ${{ secrets.RUNTIME_FIREBASE_AUTH_DOMAIN }}
+          RUNTIME_FIREBASE_PROJECT_ID: ${{ secrets.RUNTIME_FIREBASE_PROJECT_ID }}
+          RUNTIME_FIREBASE_STORAGE_BUCKET: ${{ secrets.RUNTIME_FIREBASE_STORAGE_BUCKET }}
+          RUNTIME_FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.RUNTIME_FIREBASE_MESSAGING_SENDER_ID }}
+          RUNTIME_FIREBASE_APP_ID: ${{ secrets.RUNTIME_FIREBASE_APP_ID }}
+
+      # - name: Set up Docker Buildx
+      #   uses: docker/setup-buildx-action@v2.5.0
 
       # - name: Docker metadata
       #   id: meta
@@ -59,14 +79,14 @@ jobs:
       #     username: ${{ github.actor }}
       #     password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build image to run tests
-        uses: docker/build-push-action@v4.0.0
-        with:
-          context: .
-          platforms: linux/amd64
-          push: false
-          load: true
-          tags: test
+      # - name: Build image to run tests
+      #   uses: docker/build-push-action@v4.0.0
+      #   with:
+      #     context: .
+      #     platforms: linux/amd64
+      #     push: false
+      #     load: true
+      #     tags: test
 
     # - name: Run Playwright tests
     #   run: |

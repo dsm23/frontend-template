@@ -93,6 +93,7 @@
     "inquirer": "^12.3.0",
     "jsdom": "^25.0.1",
     "msw": "^2.7.0",
+    "otpauth": "^9.3.6",
     "postcss": "^8.4.49",
     "prettier": "^3.4.2",
     "prettier-plugin-css-order": "^2.1.2",

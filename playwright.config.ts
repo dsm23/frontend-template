@@ -3,6 +3,8 @@ import path from "node:path";
 import { defineConfig, devices } from "@playwright/test";
 import { parse } from "dotenv";
 
+const PORT = process.env.PORT || 3000;
+
 /**
  * Functions copied from vite https://github.com/vitejs/vite/blob/4215e22696dfec4e030749a1ad001777bf4dc2bb/packages/vite/src/node/env.ts
  */
@@ -58,7 +60,7 @@ export default defineConfig({
   workers: process.env.CI ? 1 : undefined,
   reporter: process.env.CI ? "github" : "html",
   use: {
-    baseURL: process.env.PLAYWRIGHT_BASE_URL,
+    baseURL: `http://localhost:${PORT}`,
     screenshot: "only-on-failure",
     trace: "on-first-retry",
   },
@@ -93,8 +95,8 @@ export default defineConfig({
   ],
 
   webServer: {
-    command: "pnpm run dev",
-    url: "http://localhost:4000",
+    command: "bun run dev",
+    url: `http://localhost:${PORT}`,
     reuseExistingServer: true,
   },
 });

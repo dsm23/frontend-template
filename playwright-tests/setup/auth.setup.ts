@@ -1,21 +1,28 @@
 import { expect, test as setup } from "@playwright/test";
 import { ROUTES } from "../../src/constants/routes";
+import { generateOTP } from "../lib/helpers/otp";
+import { GooglePopUpPage } from "playwright-tests/happy-path/poms/GooglePopup";
 
 const authFile = "playwright-tests/setup/auth.json";
 
 setup("authenticate", async ({ page }) => {
   await page.goto(ROUTES.PROTECTED_PAGE);
 
-  await page.waitForURL(`${process.env.MAINSITE_B2C_INSTANCE as string}/**`);
-  await page
-    .getByLabel("Sign in name", { exact: true })
-    .fill(process.env.PLAYWRIGHT_TEST_USER_EMAIL as string);
-  await page
-    .getByLabel("Password")
-    .fill(process.env.PLAYWRIGHT_TEST_USER_PASSWORD as string);
-  await page.getByRole("button", { name: "Sign in" }).click();
+  await page.waitForURL(`${ROUTES.LOGIN}**`);
 
-  await page.waitForURL("/callbacks");
+  await page.locator("button", { hasText: "Sign in with Google" }).click();
+
+  const popup = await page.waitForEvent("popup");
+
+  const googlePopupPage = new GooglePopUpPage(popup);
+
+  await googlePopupPage.login(
+    process.env.GOOGLE_EMAIL,
+    process.env.GOOGLE_PASSWORD,
+  );
+
+  const twoFACode = generateOTP(process.env.GOOGLE_OTP_SECRET);
+  await googlePopupPage.enterCode(twoFACode);
 
   await page.waitForURL(ROUTES.PROTECTED_PAGE);
 

@@ -81,7 +81,7 @@ export class HomePage extends CommonLayout {
   }
 
   async goto() {
-    await this.page.goto("/");
+    await this.page.goto("/shadcn");
   }
 
   async selectFavouriteColour(colour: keyof typeof colours) {

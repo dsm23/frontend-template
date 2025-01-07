@@ -19,7 +19,8 @@ export function LoginForm() {
     <Card className="mx-auto max-w-sm">
       <CardHeader className="space-y-1">
         <CardTitle className="text-2xl font-bold">Login</CardTitle>
-        <CardDescription>
+        {/* TODO: remove this className */}
+        <CardDescription className="text-slate-600">
           Enter your email and password to login to your account
         </CardDescription>
       </CardHeader>
