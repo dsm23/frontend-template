@@ -91,7 +91,14 @@ const router = createBrowserRouter([
 ]);
 
 const App = () => (
-  <RouterProvider router={router} fallbackElement={<div>loading...</div>} />
+  <RouterProvider
+    router={router}
+    fallbackElement={
+      <main>
+        <h1>loading...</h1>
+      </main>
+    }
+  />
 );
 
 export default App;

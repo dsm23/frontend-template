@@ -1,5 +1,4 @@
 import type { FunctionComponent, SVGAttributes } from "react";
-import { Link } from "react-router-dom";
 import { cn } from "~/utils";
 import { Logo } from "../svgs";
 
@@ -202,12 +201,11 @@ const Footer: FunctionComponent<Props> = ({ className }) => (
         </div>
       </div>
       <div className="mt-16 border-t border-white/10 pt-8 sm:mt-20 lg:mt-24">
-        <p className="text-xs leading-5 text-gray-400">
+        <p className="text-xs leading-5 text-gray-300">
           &copy; 2023 Your Company, Inc. All rights reserved.
         </p>
       </div>
     </div>
-    <Link to="/formik">Test</Link>
   </footer>
 );
 

@@ -5,24 +5,18 @@ test.describe("header", () => {
   test("no 404 links", async ({ page }) => {
     await page.goto("/");
 
-    const footer = page.locator("header").first();
+    const header = page.locator("header").first();
 
-    const links = footer.locator("a");
+    const links = header.locator("a");
 
     await expect(links).toHaveCount(4);
 
     for (let i = 1; i < (await links.count()); i++) {
       await links.nth(i).click();
 
-      const popup = await page.waitForEvent("popup");
-
-      await popup.waitForLoadState("load");
-
-      await expect(popup.getByText(/Error: 404/i)).not.toBeVisible();
-      await expect(popup.getByText(/404/i)).not.toBeVisible();
-      await expect(popup.getByText(/Page not found/i)).not.toBeVisible();
-
-      await popup.close();
+      await expect(page.getByText(/Error: 404/i)).not.toBeVisible();
+      await expect(page.getByText(/404/i)).not.toBeVisible();
+      await expect(page.getByText(/Page not found/i)).not.toBeVisible();
     }
   });
 
